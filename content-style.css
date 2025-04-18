@@ -1,0 +1,79 @@
+
+.A2O4W8X6IK {
+   display: none !important;
+}
+
+@-webkit-keyframes borderBlinkGeneric {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: red    
+   }    
+}    
+@keyframes borderBlinkGeneric {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: red    
+   }    
+} 
+
+@-webkit-keyframes borderBlinkSpecific {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: blue    
+   }    
+}    
+@keyframes borderBlinkSpecific {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: blue
+   }    
+} 
+
+@-webkit-keyframes borderBlinkHeuristic {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: greenyellow
+   }    
+}    
+@keyframes borderBlinkHeuristic {    
+   from, to {    
+       border-color: transparent    
+   }    
+   50% {    
+       border-color: greenyellow
+   }    
+} 
+
+.B2O4W8X6IL {
+   /* border-color: red !important; */
+   border-width: 3px !important;
+   border-style: dashed !important;
+   -webkit-animation: borderBlinkGeneric 1s step-end infinite;    
+   animation: borderBlinkGeneric 1s step-end infinite; 
+}
+
+.C2O4W8X6IM {
+   /* border-color: blue; */
+   border-width: 3px !important;
+   border-style: dotted !important;
+   -webkit-animation: borderBlinkSpecific 1s step-end infinite;    
+   animation: borderBlinkSpecific 1s step-end infinite; 
+}
+
+.D2O4W8X6IN {
+   border-color: yellow !important;
+   border-width: 3px !important;
+   border-style: solid !important;
+   -webkit-animation: borderBlinkHeuristic 1s step-end infinite;    
+   animation: borderBlinkHeuristic 1s step-end infinite; 
+}
