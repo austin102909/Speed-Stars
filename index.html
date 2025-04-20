@@ -2,67 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Speed Stars</title>
 
-    <!-- Unity WebGL configuration -->
-    <script>
-    window.config = {
-        loader: 'unity-2020',
-        debug: false,
-        maxRatio: 24 / 9,
-        minRatio: 9 / 24,
-
-        title: 'Speed Stars',
-        thumbnail: '04f09e51e79fd1b6a5cc974b504d6379.png',
-        numScreenshots: 0,
-
-        unityVersion: '2022.3.19f1',
-        unityWebglBuildUrl: '',
-
-        fileSize: 37,
-        cachedDecompressedFileSizes: {
-            '6127fbba3e79cbcada24ba1ffd033f77.data': 13472152,
-            'Build_v2-40w.loader.js': 20642,
-            'b0e5ec181474d494c6ff3c9ad9c3b1bd.js': 405098,
-            'fe2a5824416bebe1cc941510618103f9.wasm': 23552919
-        },
-        metadata: {
-            poki_template_version: 1,
-            background_color: '#231F20',
-            code_filename: 'fe2a5824416bebe1cc941510618103f9.wasm',
-            company_name: 'Luke Doukakis',
-            data_filename: '6127fbba3e79cbcada24ba1ffd033f77.data',
-            framework_filename: 'b0e5ec181474d494c6ff3c9ad9c3b1bd.js',
-            loader_filename: 'Build_v2-40w.loader.js',
-            height: '360',
-            width: '640',
-            product_name: 'Speed Stars',
-            product_version: '2.40',
-            splash_screen_style: 'Dark',
-            use_data_caching: 'true',
-            use_threads: 'false',
-            use_wasm: 'true',
-            use_webgl_1_0: 'false',
-            use_webgl_2_0: 'true'
-        }
-    };
-    </script>
-
-    <!-- Styles (from original site) -->
+    <!-- Styles -->
     <style>
         * { margin: 0; padding: 0; }
         html, body { width: 100vw; height: 100vh; overflow: hidden; background: #002B50; font-family: Torus, Arial, Helvetica, sans-serif; color: #fff; }
-        #game-container { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; display: none; }
-        #game, #game canvas { width: 100%; height: 100%; }
-        #loader, #slideshow, #slideshow-images, #slideshow-nav { width: 100%; height: 100%; }
-        /* ... include any additional CSS from original elements ... */
+        #loader, #slideshow, #slideshow-images, #slideshow-nav, #game-container { width: 100%; height: 100%; }
+        #game-container { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        canvas { width: 100%; height: 100%; }
+        /* Include any additional slideshow CSS here... */
     </style>
 </head>
 <body>
-    <!-- Loading spinner and slideshow (unchanged) -->
-    <div id="spinner" class="spinner"></div>
+    <!-- Preloader UI -->
     <div id="loader">
         <div id="slideshow">
             <div id="slideshow-top" class="active">
@@ -81,16 +36,36 @@
         </div>
     </div>
 
-    <!-- Unity canvas -->
-    <div id="game-container"><canvas id="game"></canvas></div>
+    <!-- Unity Game Container -->
+    <div id="game-container">
+        <canvas id="game"></canvas>
+    </div>
 
-    <!-- Load Unity WebGL build -->
-    <script src="Build/Build_v2-40w.loader.js"></script>
+    <!-- Unity WebGL Configuration -->
     <script>
-        createUnityInstance(document.getElementById('game-container'), window.config, function(progress) {
-            // Show loader
+        var config = {
+            dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
+            frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
+            codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Luke Doukakis",
+            productName: "Speed Stars",
+            productVersion: "2.40",
+            backgroundColor: "#231F20",
+            width: 640,
+            height: 360
+        };
+    </script>
+
+    <!-- Unity Loader Script -->
+    <script src="Build/Build_v2-40w.loader.js"></script>
+
+    <!-- Initialize Unity Instance -->
+    <script>
+        createUnityInstance(document.getElementById("game-container"), config, function(progress) {
+            // Show loader and update progress
             document.getElementById('loader').style.display = 'block';
-            document.getElementById('slideshow').style.opacity = progress;
+            // Optionally update progress UI here
         }).then(function(unityInstance) {
             // Hide loader and show game
             document.getElementById('loader').style.display = 'none';
