@@ -35,19 +35,23 @@
 
   <!-- Mocking the Poki SDK and initPokiBridge -->
   <script>
-    // Ensure initPokiBridge is defined globally
+    // Ensure initPokiBridge is defined globally and initialize SDK
     if (typeof window.initPokiBridge !== 'function') {
       window.initPokiBridge = function() {
-        console.log('initPokiBridge is now mocked.');
-        // If Poki SDK calls this, mock the initialization (like a placeholder)
+        console.log('initPokiBridge is mocked and initializing SDK...');
+
+        // Mock PokiUnitySDK initialization
         window.PokiUnitySDK = {
           Instance: {
             Init: function() {
-              console.log('PokiUnitySDK.Instance.Init() has been mocked.');
-              // You can add additional logic if needed for this mock
+              console.log('PokiUnitySDK.Instance.Init() has been mocked and called.');
+              // Additional mock logic can go here if necessary
             }
           }
         };
+
+        // Now call Init as the SDK expects
+        window.PokiUnitySDK.Instance.Init();
       };
     }
 
