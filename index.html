@@ -33,24 +33,30 @@
     <canvas id="unity-canvas"></canvas>
   </div>
 
-  <!-- Fake Poki SDK -->
+  <!-- Mock Poki SDK -->
   <script>
-    // Mocking the Poki SDK function initPokiBridge
-    if (typeof window.initPokiBridge !== 'function') {
-      window.initPokiBridge = function() {
-        console.log('initPokiBridge is a mock function. It has not been implemented.');
-      };
-    }
+    // Mock the PokiUnitySDK and its methods
+    window.PokiUnitySDK = {
+      Instance: {
+        Init: function() {
+          console.log("PokiUnitySDK mock: initialized");
+        }
+      }
+    };
 
+    // Mocking the Poki bridge functions for testing
     window.IntPokiBridge = {
-      gameLoadingStart: function () { console.log("Poki: gameLoadingStart"); },
-      gameLoadingFinished: function () { console.log("Poki: gameLoadingFinished"); },
+      gameLoadingStart: function () { console.log("Poki: gameLoadingStart (mock)"); },
+      gameLoadingFinished: function () { console.log("Poki: gameLoadingFinished (mock)"); },
       commercialBreak: function () { return Promise.resolve(); },
       rewardedBreak: function () { return Promise.resolve(); },
-      happyTime: function () { console.log("Poki: happyTime"); },
-      gameplayStart: function () { console.log("Poki: gameplayStart"); },
-      gameplayStop: function () { console.log("Poki: gameplayStop"); }
+      happyTime: function () { console.log("Poki: happyTime (mock)"); },
+      gameplayStart: function () { console.log("Poki: gameplayStart (mock)"); },
+      gameplayStop: function () { console.log("Poki: gameplayStop (mock)"); }
     };
+
+    // Initialize the mocked SDK
+    PokiUnitySDK.Instance.Init();
   </script>
 
   <!-- Unity loader -->
@@ -74,6 +80,3 @@
   </script>
 </body>
 </html>
-
-
-
