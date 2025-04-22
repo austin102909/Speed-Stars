@@ -35,8 +35,12 @@
 
   <!-- Fake Poki SDK (Mock Functions) -->
   <script>
-    // Mock the Poki SDK
+    // Mock the Poki SDK with the necessary functions
     window.PokiUnitySDK = {
+      initPokiBridge: function() { 
+        console.log("Poki: initPokiBridge called");
+        return Promise.resolve(); // Simulate successful initialization
+      },
       gameLoadingStart: function () { console.log("Poki: gameLoadingStart"); },
       gameLoadingFinished: function () { console.log("Poki: gameLoadingFinished"); },
       commercialBreak: function () { return Promise.resolve(); },
@@ -46,8 +50,8 @@
       gameplayStop: function () { console.log("Poki: gameplayStop"); }
     };
 
-    // You can call these functions without initialization
-    window.PokiUnitySDK.gameLoadingStart(); // Mocking a game loading start
+    // Call initPokiBridge to simulate initialization
+    window.PokiUnitySDK.initPokiBridge(); // Mocking the initialization
   </script>
 
   <!-- Unity loader -->
