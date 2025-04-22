@@ -33,23 +33,36 @@
     <canvas id="unity-canvas"></canvas>
   </div>
 
+  <!-- Real Poki SDK -->
+  <script src="scripts/poki/poki-sdk.js"></script>
+
   <!-- Unity loader -->
   <script src="Build/Build_v2-40w.loader.js"></script>
 
-  <!-- Unity startup script -->
+  <!-- Initialize Poki SDK and then Unity -->
   <script>
-    createUnityInstance(document.querySelector("#unity-canvas"), {
-      dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
-      frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
-      codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
-      streamingAssetsUrl: "Build/StreamingAssets", // if you don't have this, it's fine to keep or remove
-      companyName: "Luke Doukakis",
-      productName: "Speed Stars",
-      productVersion: "2.40"
-    }).then((unityInstance) => {
-      console.log("✅ Unity loaded successfully!");
-    }).catch((error) => {
-      console.error("❌ Failed to load Unity:", error);
+    PokiSDK.init().then(() => {
+      console.log("✅ Poki SDK initialized");
+
+      PokiSDK.gameLoadingStart();
+
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
+        frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
+        codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
+        streamingAssetsUrl: "Build/StreamingAssets",
+        companyName: "Luke Doukakis",
+        productName: "Speed Stars",
+        productVersion: "2.40"
+      }).then((unityInstance) => {
+        PokiSDK.gameLoadingFinished();
+        console.log("✅ Unity loaded successfully!");
+      }).catch((error) => {
+        console.error("❌ Failed to load Unity:", error);
+      });
+
+    }).catch(err => {
+      console.error("❌ Poki SDK failed to initialize:", err);
     });
   </script>
 </body>
