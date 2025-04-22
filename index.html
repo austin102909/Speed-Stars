@@ -33,11 +33,18 @@
     <canvas id="unity-canvas"></canvas>
   </div>
 
-  <!-- Load Poki SDK and Unity files -->
-  <script src="https://raw.githubusercontent.com/austin102909/Speed-Stars/main/files/scripts/poki/master-loader.js"></script>
-  <script src="https://raw.githubusercontent.com/austin102909/Speed-Stars/main/files/scripts/poki/poki-sdk-core-.js"></script>
-  <script src="https://raw.githubusercontent.com/austin102909/Speed-Stars/main/files/scripts/poki/poki-sdk.js"></script>
-  <script src="https://raw.githubusercontent.com/austin102909/Speed-Stars/main/files/scripts/poki/unity-2020.js"></script>
+  <!-- Fake Poki SDK to prevent errors -->
+  <script>
+    window.PokiSDK = {
+      init: () => Promise.resolve(),
+      commercialBreak: () => Promise.resolve(),
+      rewardedBreak: () => Promise.resolve(),
+      gameplayStart: () => {},
+      gameplayStop: () => {},
+      happyTime: () => {},
+      setDebug: () => {}
+    };
+  </script>
 
   <!-- Unity loader -->
   <script src="Build/Build_v2-40w.loader.js"></script>
@@ -48,7 +55,7 @@
       dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
       frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
       codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
-      streamingAssetsUrl: "Build/StreamingAssets", // if you don't have this, it's fine to keep or remove
+      streamingAssetsUrl: "Build/StreamingAssets",
       companyName: "Luke Doukakis",
       productName: "Speed Stars",
       productVersion: "2.40"
