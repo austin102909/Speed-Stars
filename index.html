@@ -42,6 +42,19 @@
       };
     }
 
+    // Mock the PokiUnitySDK
+    window.PokiUnitySDK = {
+      Instance: {
+        Init: function() {
+          console.log('PokiUnitySDK initialized.');
+          // Mocking successful initialization
+          this.isInitialized = true;
+        },
+        isInitialized: false,  // Initially not initialized
+      },
+    };
+
+    // Mock other required Poki functions
     window.IntPokiBridge = {
       gameLoadingStart: function () { console.log("Poki: gameLoadingStart"); },
       gameLoadingFinished: function () { console.log("Poki: gameLoadingFinished"); },
@@ -51,6 +64,11 @@
       gameplayStart: function () { console.log("Poki: gameplayStart"); },
       gameplayStop: function () { console.log("Poki: gameplayStop"); }
     };
+
+    // Simulate initialization
+    if (!window.PokiUnitySDK.Instance.isInitialized) {
+      window.PokiUnitySDK.Instance.Init();
+    }
   </script>
 
   <!-- Unity loader -->
