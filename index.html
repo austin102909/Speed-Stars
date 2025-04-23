@@ -90,33 +90,29 @@
       }
     };
 
-    // Simulate delayed initialization (e.g., waiting for Unity to load)
-    function initializeSDK() {
-      if (!window.PokiUnitySDK.Instance.initialized) {
-        window.PokiUnitySDK.Instance.Init();
-        console.log("PokiUnitySDK has been initialized successfully.");
-      }
-    }
-
     // Function to handle play button click
     function onPlayButtonClick() {
-      // Ensure the SDK is initialized before doing anything
+      // Ensure SDK is initialized before doing anything
+      console.log("Checking SDK Initialization...");
       if (!window.PokiUnitySDK.Instance.initialized) {
+        console.log("Initializing SDK...");
         window.PokiUnitySDK.Instance.Init();
       }
 
       // Trigger SDK method gameplayStart after initialization
+      console.log("Starting Gameplay...");
       window.PokiUnitySDK.Instance.gameplayStart();
 
       // Hide the play button once clicked
       document.getElementById("play-button").style.display = 'none';
 
-      // Optionally, start the Unity game after the SDK is ready
+      // Start the Unity game after SDK is initialized
       startUnityGame();
     }
 
     // Function to start Unity game
     function startUnityGame() {
+      console.log("Loading Unity game...");
       createUnityInstance(document.querySelector("#unity-canvas"), {
         dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
         frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
@@ -127,11 +123,14 @@
         productVersion: "2.40"
       }).then((unityInstance) => {
         console.log("✅ Unity loaded successfully!");
-        // Start Unity game after loading
+        // Trigger any Unity events if necessary
       }).catch((error) => {
         console.error("❌ Failed to load Unity:", error);
       });
     }
+
+    // Attach click handler to play button
+    document.getElementById("play-button").addEventListener("click", onPlayButtonClick);
   </script>
 
   <!-- Unity loader -->
@@ -139,8 +138,7 @@
 
   <!-- Unity startup script -->
   <script>
-    // Attach click handler to play button
-    document.getElementById("play-button").addEventListener("click", onPlayButtonClick);
+    // The Unity initialization should already be delayed until the play button is clicked
   </script>
 </body>
 </html>
