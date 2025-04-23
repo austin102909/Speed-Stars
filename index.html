@@ -33,37 +33,46 @@
     <canvas id="unity-canvas"></canvas>
   </div>
 
-  <!-- Mocking the Poki SDK and initPokiBridge -->
+  <!-- Mocking the Poki SDK Initialization -->
   <script>
-    // Ensure initPokiBridge is defined globally and initialize SDK
+    // Mocking the Poki SDK function initPokiBridge
     if (typeof window.initPokiBridge !== 'function') {
       window.initPokiBridge = function() {
-        console.log('initPokiBridge is mocked and initializing SDK...');
-
-        // Mock PokiUnitySDK initialization
-        window.PokiUnitySDK = {
-          Instance: {
-            Init: function() {
-              console.log('PokiUnitySDK.Instance.Init() has been mocked and called.');
-              // Additional mock logic can go here if necessary
-            }
-          }
-        };
-
-        // Now call Init as the SDK expects
-        window.PokiUnitySDK.Instance.Init();
+        console.log('initPokiBridge is a mock function. It has not been implemented.');
       };
     }
 
-    // Mocking the Poki SDK functions
-    window.IntPokiBridge = {
-      gameLoadingStart: function () { console.log("Poki: gameLoadingStart"); },
-      gameLoadingFinished: function () { console.log("Poki: gameLoadingFinished"); },
-      commercialBreak: function () { return Promise.resolve(); },
-      rewardedBreak: function () { return Promise.resolve(); },
-      happyTime: function () { console.log("Poki: happyTime"); },
-      gameplayStart: function () { console.log("Poki: gameplayStart"); },
-      gameplayStop: function () { console.log("Poki: gameplayStop"); }
+    // Mock PokiUnitySDK initialization
+    window.PokiUnitySDK = {
+      Instance: {
+        initialized: false, // flag to check if it's initialized
+        Init: function() {
+          console.log("PokiUnitySDK initialized");
+          this.initialized = true;  // Set initialization flag to true
+        },
+        // Mock functions
+        commercialBreak: function () {
+          if (!this.initialized) {
+            console.error("PokiUnitySDK is not initialized yet.");
+            return;
+          }
+          console.log("Poki: commercialBreak");
+        },
+        gameplayStart: function () {
+          if (!this.initialized) {
+            console.error("PokiUnitySDK is not initialized yet.");
+            return;
+          }
+          console.log("Poki: gameplayStart");
+        },
+        gameplayStop: function () {
+          if (!this.initialized) {
+            console.error("PokiUnitySDK is not initialized yet.");
+            return;
+          }
+          console.log("Poki: gameplayStop");
+        }
+      }
     };
   </script>
 
@@ -72,6 +81,7 @@
 
   <!-- Unity startup script -->
   <script>
+    // Initialize Unity
     createUnityInstance(document.querySelector("#unity-canvas"), {
       dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
       frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
@@ -82,6 +92,12 @@
       productVersion: "2.40"
     }).then((unityInstance) => {
       console.log("✅ Unity loaded successfully!");
+
+      // Simulate initialization of the Poki SDK
+      window.PokiUnitySDK.Instance.Init();  // Call Init() to initialize the SDK
+
+      // Now we can call the SDK functions
+      window.PokiUnitySDK.Instance.gameplayStart();  // Start gameplay after initialization
     }).catch((error) => {
       console.error("❌ Failed to load Unity:", error);
     });
