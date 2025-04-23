@@ -21,6 +21,16 @@
       width: 100%;
       height: 100%;
     }
+    #play-button {
+      position: absolute;
+      z-index: 10;
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
   </style>
 
   <!-- Preload Unity files -->
@@ -32,6 +42,9 @@
   <div id="unity-container">
     <canvas id="unity-canvas"></canvas>
   </div>
+
+  <!-- Play Button -->
+  <button id="play-button">Play</button>
 
   <!-- Mocking the Poki SDK Initialization -->
   <script>
@@ -83,6 +96,19 @@
       }
     }
 
+    // Function to handle the play button
+    function handlePlayButton() {
+      if (!window.PokiUnitySDK.Instance.initialized) {
+        console.log("SDK not initialized yet. Initializing...");
+        initializeSDK(); // Initialize SDK if it's not already done
+      }
+
+      // Trigger gameplayStart only after initialization
+      window.PokiUnitySDK.Instance.gameplayStart();
+    }
+
+    // Wait for the play button click event
+    document.getElementById('play-button').addEventListener('click', handlePlayButton);
   </script>
 
   <!-- Unity loader -->
@@ -94,22 +120,4 @@
     createUnityInstance(document.querySelector("#unity-canvas"), {
       dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
       frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
-      codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
-      streamingAssetsUrl: "Build/StreamingAssets",
-      companyName: "Luke Doukakis",
-      productName: "Speed Stars",
-      productVersion: "2.40"
-    }).then((unityInstance) => {
-      console.log("✅ Unity loaded successfully!");
-
-      // Ensure SDK is initialized before interacting with it
-      initializeSDK();
-
-      // Now we can safely call the SDK methods after Init
-      window.PokiUnitySDK.Instance.gameplayStart();  // Start gameplay after initialization
-    }).catch((error) => {
-      console.error("❌ Failed to load Unity:", error);
-    });
-  </script>
-</body>
-</html>
+      codeUrl: "Build/fe2a5824416bebe1cc941510618103
