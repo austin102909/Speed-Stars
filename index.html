@@ -23,12 +23,14 @@
     }
     #play-button {
       position: absolute;
-      z-index: 10;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 20px;
+      font-size: 20px;
       background: #28a745;
       color: white;
       border: none;
-      padding: 20px;
-      font-size: 24px;
       cursor: pointer;
     }
   </style>
@@ -96,19 +98,40 @@
       }
     }
 
-    // Function to handle the play button
-    function handlePlayButton() {
+    // Function to handle play button click
+    function onPlayButtonClick() {
+      // Ensure the SDK is initialized before doing anything
       if (!window.PokiUnitySDK.Instance.initialized) {
-        console.log("SDK not initialized yet. Initializing...");
-        initializeSDK(); // Initialize SDK if it's not already done
+        window.PokiUnitySDK.Instance.Init();
       }
 
-      // Trigger gameplayStart only after initialization
+      // Trigger SDK method gameplayStart after initialization
       window.PokiUnitySDK.Instance.gameplayStart();
+
+      // Hide the play button once clicked
+      document.getElementById("play-button").style.display = 'none';
+
+      // Optionally, start the Unity game after the SDK is ready
+      startUnityGame();
     }
 
-    // Wait for the play button click event
-    document.getElementById('play-button').addEventListener('click', handlePlayButton);
+    // Function to start Unity game
+    function startUnityGame() {
+      createUnityInstance(document.querySelector("#unity-canvas"), {
+        dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
+        frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
+        codeUrl: "Build/fe2a5824416bebe1cc941510618103f9.wasm",
+        streamingAssetsUrl: "Build/StreamingAssets",
+        companyName: "Luke Doukakis",
+        productName: "Speed Stars",
+        productVersion: "2.40"
+      }).then((unityInstance) => {
+        console.log("✅ Unity loaded successfully!");
+        // Start Unity game after loading
+      }).catch((error) => {
+        console.error("❌ Failed to load Unity:", error);
+      });
+    }
   </script>
 
   <!-- Unity loader -->
@@ -116,8 +139,8 @@
 
   <!-- Unity startup script -->
   <script>
-    // Initialize Unity
-    createUnityInstance(document.querySelector("#unity-canvas"), {
-      dataUrl: "Build/6127fbba3e79cbcada24ba1ffd033f77.data",
-      frameworkUrl: "Build/b0e5ec181474d494c6ff3c9ad9c3b1bd.js",
-      codeUrl: "Build/fe2a5824416bebe1cc941510618103
+    // Attach click handler to play button
+    document.getElementById("play-button").addEventListener("click", onPlayButtonClick);
+  </script>
+</body>
+</html>
