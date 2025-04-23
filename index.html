@@ -74,6 +74,15 @@
         }
       }
     };
+
+    // Simulate delayed initialization (e.g., waiting for Unity to load)
+    function initializeSDK() {
+      if (!window.PokiUnitySDK.Instance.initialized) {
+        window.PokiUnitySDK.Instance.Init();
+        console.log("PokiUnitySDK has been initialized successfully.");
+      }
+    }
+
   </script>
 
   <!-- Unity loader -->
@@ -93,10 +102,10 @@
     }).then((unityInstance) => {
       console.log("✅ Unity loaded successfully!");
 
-      // Simulate initialization of the Poki SDK
-      window.PokiUnitySDK.Instance.Init();  // Call Init() to initialize the SDK
+      // Ensure SDK is initialized before interacting with it
+      initializeSDK();
 
-      // Now we can call the SDK functions
+      // Now we can safely call the SDK methods after Init
       window.PokiUnitySDK.Instance.gameplayStart();  // Start gameplay after initialization
     }).catch((error) => {
       console.error("❌ Failed to load Unity:", error);
